@@ -15,7 +15,6 @@ class MoomooClient extends events.EventTarget {
 
 		this.socket.on("message", data => {
 			const msg = msgpack.unpack(new Uint8Array(data));
-			console.log(msg)
 			switch (msg[0]) {
 				case "1": {
 					this.selfID = msg[1][0];
@@ -26,7 +25,7 @@ class MoomooClient extends events.EventTarget {
 	}
 
 	send(msg) {
-		this.socket.send(msgpack.pack(msg))
+		this.socket.send(msgpack.pack(msg));
 	}
 
 	spawn(name = "Bot", skin = 0) {
@@ -69,7 +68,7 @@ function getIP(link) {
 	}
 }
 
-let servers = [];
+const servers = [];
 let hasServerData = false;
 
 request.get("http://dev.moomoo.io/serverData/", (error, response) => {
@@ -102,4 +101,4 @@ module.exports = {
 	MoomooClient,
 	MoomooPlayer,
 	parseServerLink,
-}
+};
