@@ -1,0 +1,36 @@
+{
+  "name": "moomoo",
+  "version": "1.0.0",
+  "description": "Control Moomoo.io players through Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nebula-Developers/Moomoo.js.git"
+  },
+  "keywords": [
+    "moomoo",
+    "mmo",
+    "game",
+    "api",
+    "bot",
+    "sender",
+    "automatic",
+    "autoheal"
+  ],
+  "author": "haykam821 | Nebula Developers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nebula-Developers/Moomoo.js/issues"
+  },
+  "homepage": "https://github.com/Nebula-Developers/Moomoo.js#readme",
+  "dependencies": {
+    "async-wait-until": "^1.2.4",
+    "msgpack": "^1.0.2",
+    "request": "^2.87.0",
+    "uws": "^10.148.1",
+    "yaeti": "^1.0.2"
+  }
+}
