@@ -4,6 +4,23 @@ const request = require("request");
 const waitUntil = require("async-wait-until");
 const msgpack = require("msgpack");
 
+/**
+ * An event representing a raw websocket message.
+ */
+class RawMessageEvent extends events.Event {
+	constructor(msg) {
+		super("message");
+
+		this.message = {
+			type: msg[0],
+			arguments: msg[1],
+		};
+	}
+}
+
+/**
+ * A Moomoo.io client that can take and recieve actions.
+ */
 class MoomooClient extends events.EventTarget {
 	constructor(server) {
 		super();
@@ -15,6 +32,9 @@ class MoomooClient extends events.EventTarget {
 
 		this.socket.on("message", data => {
 			const msg = msgpack.unpack(new Uint8Array(data));
+
+			this.dispatchEvent(new RawMessageEvent(msg));
+
 			switch (msg[0]) {
 				case "1": {
 					this.selfID = msg[1][0];
@@ -22,28 +42,40 @@ class MoomooClient extends events.EventTarget {
 				}
 			}
 		});
+		this.socket.on("open", () => {
+			this.dispatchEvent(new events.Event("socketOpen"));
+		});
 	}
 
+	/**
+	 * Sends a message.
+	 * @param {*[]} msg The message data.
+	 */
 	send(msg) {
 		this.socket.send(msgpack.pack(msg));
 	}
 
-	spawn(name = "Bot", skin = 0) {
+	/**
+	 * Spawns the client in the arena.
+	 * @param {string} name The name to spawn with.
+	 * @param {number} skin The skin index to spawn with.
+	 * @param {boolean} spawnBonus Whether to spawn with a bonus of 100 of each resource.
+	 */
+	spawn(name = "Bot", skin = 0, spawnBonus = true) {
 		this.send([
 			"1",
-			{
+			[{
 				name,
 				skin,
-				moofoll: true,
-			},
+				moofoll: spawnBonus,
+			}],
 		]);
 	}
 }
 
-class MoomooPlayer {
-
-}
-
+/**
+ * A Moomoo.io game.
+ */
 class MoomooGame {
 	constructor(serverData, gameData, gameIndex) {
 		this.ip = serverData.ip;
@@ -54,6 +86,9 @@ class MoomooGame {
 		this.isPrivate = gameData.isPrivate;
 	}
 
+	/**
+	 * Gets a game's identifier.
+	 */
 	toIdentifier() {
 		return `${this.region}:${this.serverIndex}:${this.index}`;
 	}
@@ -83,6 +118,11 @@ request.get("http://dev.moomoo.io/serverData/", (error, response) => {
 	}
 });
 
+/**
+ * Gets server information from a party link.
+ * @param {string} link The party link to parse.
+ * @returns {Promise.<MoomooGame>}
+ */
 async function parseServerLink(link) {
 	await waitUntil(() => hasServerData);
 
@@ -99,6 +139,5 @@ async function parseServerLink(link) {
 
 module.exports = {
 	MoomooClient,
-	MoomooPlayer,
 	parseServerLink,
 };
