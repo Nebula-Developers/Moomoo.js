@@ -45,13 +45,15 @@ class MoomooClient extends events.EventTarget {
 		this.socket.on("open", () => {
 			this.dispatchEvent(new events.Event("socketOpen"));
 		});
+
+		this.attacking = false;
 	}
 
 	/**
 	 * Sends a message.
 	 * @param {*[]} msg The message data.
 	 */
-	send(msg) {
+	send(...msg) {
 		this.socket.send(msgpack.pack(msg));
 	}
 
@@ -62,13 +64,49 @@ class MoomooClient extends events.EventTarget {
 	 * @param {boolean} spawnBonus Whether to spawn with a bonus of 100 of each resource.
 	 */
 	spawn(name = "Bot", skin = 0, spawnBonus = true) {
-		this.send([
-			"1",
-			[{
-				name,
-				skin,
-				moofoll: spawnBonus,
-			}],
+		this.send("1", [{
+			name,
+			skin,
+			moofoll: spawnBonus,
+		}]);
+	}
+
+	direction(direction = 0, move = false) {
+		this.send("2", [
+			direction,
+		]);
+		this.send("3", [
+			move ? direction : null,
+		]);
+	}
+
+	/**
+	 * Sends a ping on the minimap.
+	 */
+	ping() {
+		this.send(14, [
+			this.selfID,
+		]);
+	}
+
+	joinTribe(tribeName) {
+		this.send("10", [
+			tribeName,
+		]);
+	}
+
+	/**
+	 * Changes attacking.
+	 * @param {boolean} shouldAttack Whether bots should attack or not. If left blank, toggles attacking.
+	 */
+	changeAttack(shouldAttack) {
+		if (shouldAttack === undefined) {
+			this.attacking = !this.attacking;
+		} else {
+			this.attacking = shouldAttack;
+		}
+		this.send("7", [
+			this.attacking,
 		]);
 	}
 }
@@ -106,7 +144,7 @@ function getIP(link) {
 const servers = [];
 let hasServerData = false;
 
-request.get("http://dev.moomoo.io/serverData/", (error, response) => {
+request.get("http://moomoo.io/serverData/", (error, response) => {
 	if (!error) {
 		const serverResponse = JSON.parse(response.body).servers;
 		serverResponse.forEach(server => {
