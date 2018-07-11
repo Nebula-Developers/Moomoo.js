@@ -5,7 +5,7 @@ const waitUntil = require("async-wait-until");
 const msgpack = require("msgpack");
 
 /**
- * An event representing a raw websocket message.
+ * An event representing a message from the Moomoo.io server.
  */
 class RawMessageEvent extends events.Event {
 	constructor(msg) {
@@ -71,12 +71,26 @@ class MoomooClient extends events.EventTarget {
 		}]);
 	}
 
+	/**
+	 * Controls the direction of the client.
+	 * @param {number} direction The direction to face.
+	 * @param {boolean} move Whether we should also move in the direction.
+	 */
 	direction(direction = 0, move = false) {
 		this.send("2", [
 			direction,
 		]);
 		this.send("3", [
 			move ? direction : null,
+		]);
+	}
+
+	/**
+	 * Stops movement.
+	 */
+	stopMovement() {
+		this.send("3", [
+			null,
 		]);
 	}
 
@@ -89,6 +103,10 @@ class MoomooClient extends events.EventTarget {
 		]);
 	}
 
+	/**
+	 * Joins a tribe by its name.
+	 * @param {string} tribeName The name of the tribe to join.
+	 */
 	joinTribe(tribeName) {
 		this.send("10", [
 			tribeName,
