@@ -163,15 +163,17 @@ const servers = [];
 let hasServerData = false;
 
 request.get("http://moomoo.io/serverData/", (error, response) => {
-	if (!error) {
-		const serverResponse = JSON.parse(response.body).servers;
-		serverResponse.forEach(server => {
-			server.games.forEach((game, index) => {
-				servers.push(new MoomooGame(server, game, index));
-			});
-		});
-		hasServerData = true;
+	if (error) {
+		throw error;
 	}
+
+	const serverResponse = JSON.parse(response.body).servers;
+	serverResponse.forEach(server => {
+		server.games.forEach((game, index) => {
+			servers.push(new MoomooGame(server, game, index));
+		});
+	});
+	hasServerData = true;
 });
 
 /**
@@ -189,7 +191,9 @@ async function parseServerLink(link) {
 	if (matching.length > 0) {
 		return matching[0];
 	} else {
-		throw new Error("No server found.");
+		const noMatchError = new Error("No server found.");
+		noMatchError.code = "NO_MATCHING_SERVER";
+		throw noMatchError;
 	}
 }
 
