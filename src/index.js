@@ -65,7 +65,7 @@ class MoomooClient extends events.EventTarget {
 	 * @param {boolean} spawnBonus Whether to spawn with a bonus of 100 of each resource.
 	 */
 	spawn(name = "Bot", skin = 0, spawnBonus = true) {
-		this.send("1", [{
+		this.send("s", [{
 			name,
 			skin,
 			moofoll: spawnBonus,
