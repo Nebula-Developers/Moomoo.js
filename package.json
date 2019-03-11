@@ -27,10 +27,10 @@
 	},
 	"homepage": "https://github.com/Nebula-Developers/Moomoo.js#readme",
 	"dependencies": {
+		"@clusterws/cws": "^0.11.1",
 		"async-wait-until": "^1.2.4",
 		"msgpack": "^1.0.2",
 		"request": "^2.87.0",
-		"uws": "^10.148.1",
 		"yaeti": "^1.0.2"
 	},
 	"devDependencies": {

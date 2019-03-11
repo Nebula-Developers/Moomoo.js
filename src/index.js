@@ -1,5 +1,5 @@
 const events = require("yaeti");
-const uws = require("uws");
+const uws = require("@clusterws/cws").WebSocket;
 const request = require("request");
 const waitUntil = require("async-wait-until");
 const msgpack = require("msgpack");
