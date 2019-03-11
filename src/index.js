@@ -17,6 +17,7 @@ class RawMessageEvent extends events.Event {
 		};
 	}
 }
+module.exports.RawMessageEvent = RawMessageEvent;
 
 /**
  * A Moomoo.io client that can take and recieve actions.
@@ -128,6 +129,7 @@ class MoomooClient extends events.EventTarget {
 		]);
 	}
 }
+module.exports.MoomooClient = MoomooClient;
 
 /**
  * A Moomoo.io game.
@@ -149,6 +151,7 @@ class MoomooGame {
 		return `${this.region}:${this.serverIndex}:${this.index}`;
 	}
 }
+module.exports.MoomooGame = MoomooGame;
 
 function getIP(link) {
 	link = link.match(/\d+:\d+:\d+/g);
@@ -158,6 +161,7 @@ function getIP(link) {
 		return false;
 	}
 }
+module.exports.getIP = getIP;
 
 const servers = [];
 let hasServerData = false;
@@ -196,8 +200,4 @@ async function parseServerLink(link) {
 		throw noMatchError;
 	}
 }
-
-module.exports = {
-	MoomooClient,
-	parseServerLink,
-};
+module.exports.parseServerLink = parseServerLink;
