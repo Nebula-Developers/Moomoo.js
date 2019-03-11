@@ -41,6 +41,13 @@ class MoomooClient extends events.EventTarget {
 					this.selfID = msg[1][0];
 					break;
 				}
+				case "mm": {
+					const event = new events.Event("minimapPing");
+					event.pingX = msg[1][0][0];
+					event.pingY = msg[1][0][1];
+					
+					this.dispatchEvent(event);
+				}
 			}
 		});
 		this.socket.on("open", () => {
