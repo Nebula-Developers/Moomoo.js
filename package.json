@@ -40,5 +40,6 @@
 		"eslint-plugin-html": "^4.0.5",
 		"eslint-plugin-json": "^1.2.0",
 		"eslint-plugin-unicorn": "^4.0.3"
-	}
+	},
+	"runkitExampleFilename": "./examples/example.js"
 }
