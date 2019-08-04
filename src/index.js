@@ -12,8 +12,8 @@ class RawMessageEvent extends events.Event {
 		super("message");
 
 		this.message = {
-			type: msg[0],
 			arguments: msg[1],
+			type: msg[0],
 		};
 	}
 }
@@ -45,7 +45,7 @@ class MoomooClient extends events.EventTarget {
 					const event = new events.Event("minimapPing");
 					event.pingX = msg[1][0][0];
 					event.pingY = msg[1][0][1];
-					
+
 					this.dispatchEvent(event);
 				}
 			}
@@ -73,9 +73,9 @@ class MoomooClient extends events.EventTarget {
 	 */
 	spawn(name = "Bot", skin = 0, spawnBonus = true) {
 		this.send("s", [{
+			moofoll: spawnBonus,
 			name,
 			skin,
-			moofoll: spawnBonus,
 		}]);
 	}
 
@@ -153,6 +153,7 @@ class MoomooGame {
 
 	/**
 	 * Gets a game's identifier.
+	 * @returns {string} The game's identifier.
 	 */
 	toIdentifier() {
 		return `${this.region}:${this.serverIndex}:${this.index}`;
@@ -160,6 +161,11 @@ class MoomooGame {
 }
 module.exports.MoomooGame = MoomooGame;
 
+/**
+ * Parses a game's identifier from a link.
+ * @param {string} link The link to parse the identifier from.
+ * @returns {string} The game's identifier.
+ */
 function getIP(link) {
 	link = link.match(/\d+:\d+:\d+/g);
 	if (link.length > 0) {
@@ -168,6 +174,7 @@ function getIP(link) {
 		return false;
 	}
 }
+
 module.exports.getIP = getIP;
 
 const servers = [];
