@@ -4,7 +4,8 @@
 	"description": "Control Moomoo.io clients through Node.js.",
 	"main": "./src/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint \"./**/*.js\""
 	},
 	"repository": {
 		"type": "git",
@@ -34,12 +35,13 @@
 		"yaeti": "^1.0.2"
 	},
 	"devDependencies": {
-		"eslint": "^5.1.0",
-		"eslint-config-haykam": "^1.2.0",
+		"eslint": "^5.16.0",
+		"eslint-config-haykam": "^1.7.0",
 		"eslint-plugin-extra-rules": "0.0.0-development",
-		"eslint-plugin-html": "^4.0.5",
-		"eslint-plugin-json": "^1.2.0",
-		"eslint-plugin-unicorn": "^4.0.3"
+		"eslint-plugin-html": "^5.0.5",
+		"eslint-plugin-json": "^1.4.0",
+		"eslint-plugin-markdown": "^1.0.0",
+		"eslint-plugin-unicorn": "^9.1.1"
 	},
 	"runkitExampleFilename": "./examples/example.js"
 }
